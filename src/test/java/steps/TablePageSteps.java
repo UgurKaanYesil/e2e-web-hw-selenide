@@ -8,15 +8,19 @@ import org.testng.annotations.*;
 import pages.TablePageElements;
 
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TablePageSteps extends TablePageElements {
+
+    private String currentUrl;
 
     @Given("I open the web tables page")
     public void navigateAndAssert () {
         open("https://demoqa.com/webtables");
         $("#addNewRecordButton").should(Condition.exist);
-        assertThat("https://demoqa.com/webtables");
+        currentUrl = getWebDriver().getCurrentUrl();
+        assertThat(currentUrl).isEqualTo("https://demoqa.com/webtables");
     }
 
     @When("I add a new record")

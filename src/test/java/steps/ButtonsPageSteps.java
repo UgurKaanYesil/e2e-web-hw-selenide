@@ -9,19 +9,25 @@ import pages.ButtonsPageElements;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 public class ButtonsPageSteps extends ButtonsPageElements {
+
+    private String currentUrl;
+
     @Given("I open the elements page")
     public void printDynamicMessageTest() {
         open("https://demoqa.com/elements");
-        assertThat("https://demoqa.com/elements");
+        currentUrl = getWebDriver().getCurrentUrl();
+        assertThat(currentUrl).isEqualTo("https://demoqa.com/elements");
 
     }
 
     @When("I click on Buttons button")
     public void clickButtonsSection() {
         buttonsButton.click();
-        assertThat("https://demoqa.com/buttons");
+        currentUrl = getWebDriver().getCurrentUrl();
+        assertThat(currentUrl).isEqualTo("https://demoqa.com/buttons");
 
     }
 
@@ -30,8 +36,8 @@ public class ButtonsPageSteps extends ButtonsPageElements {
         clickMeButton.scrollTo().click();
     }
 
-    @Then("I should see the message")
 
+    @Then("I should see the message")
     public void iShouldSeeTheMessage() {
         dynamicMessage.shouldBe(visible);
         System.out.println(dynamicMessage.getText());
